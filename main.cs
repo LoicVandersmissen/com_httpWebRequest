@@ -214,7 +214,7 @@ namespace ws_declaration_sociale
                     //System.Net.ServicePointManager.CertificatePolicy = new TrustAllCertificatePolicy();
 
                     //replace by this
-                    System.Net.ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
+                    System.Net.ServicePointManager.ServerCertificateValidationCallback = delegate {return true;};
                 }
             }
 

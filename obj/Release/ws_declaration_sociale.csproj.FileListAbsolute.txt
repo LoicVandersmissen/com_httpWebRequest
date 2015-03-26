@@ -1,5 +1,0 @@
-C:\Users\LV\documents\visual studio 2012\Projects\ws_declaration_sociale\ws_declaration_sociale\bin\Release\ws_declaration_sociale.dll
-C:\Users\LV\documents\visual studio 2012\Projects\ws_declaration_sociale\ws_declaration_sociale\bin\Release\ws_declaration_sociale.pdb
-C:\Users\LV\documents\visual studio 2012\Projects\ws_declaration_sociale\ws_declaration_sociale\obj\Release\ws_declaration_sociale.dll
-C:\Users\LV\documents\visual studio 2012\Projects\ws_declaration_sociale\ws_declaration_sociale\obj\Release\ws_declaration_sociale.pdb
-C:\Users\LV\documents\visual studio 2012\Projects\ws_declaration_sociale\ws_declaration_sociale\bin\Release\ws_declaration_sociale.tlb
