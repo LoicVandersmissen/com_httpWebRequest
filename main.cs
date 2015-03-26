@@ -24,9 +24,9 @@ namespace ws_declaration_sociale
         [DispId(2)]
         String GetRequestResponse();
 
-        //get the http request response's data
+        //get the http request response's data with specified enconding
         [DispId(3)]
-        String GetRequestResponse(string encodingName);
+        String GetRequestResponseE(string encodingName);
 
         //add a client certificat 
         [DispId(4)]
@@ -35,6 +35,12 @@ namespace ws_declaration_sociale
         //add a server certificat trust policy
         [DispId(5)]
         Int32 SetTrusAllCertificatePolicy(string value);
+
+
+        //get the http request response's data
+        [DispId(5)]
+        String GetRequestResponseHeader();
+
 
     }
 
@@ -65,6 +71,8 @@ namespace ws_declaration_sociale
         private Boolean _postGZipData;
 
         private bool _trusAllCertificatePolicy;
+
+        private String _requestResponseHeader;
 
 
         public Int32 reqHttp(string url, string httpVerb, string[] headers, string data)
@@ -191,11 +199,8 @@ namespace ws_declaration_sociale
                     }
                     if (Cert != null)
                     {
-                        MessageBox.Show("enter in add cert");
-
+                     
                         request.ClientCertificates.Add(Cert);
-
-                        MessageBox.Show("after add");
 
                     }
 
@@ -266,6 +271,8 @@ namespace ws_declaration_sociale
 
                 _codeHttp = (int)response.StatusCode;
 
+                
+						
                 reader.Close();
                 response.Close();
 
@@ -276,18 +283,21 @@ namespace ws_declaration_sociale
             /****
              * 
              * catch error
-             * 
-             ***/
+             *              ***/
 
             catch (WebException we)
             {
-                MessageBox.Show(we.Message, "WE");
+                MessageBox.Show(we.Message, "Web Exception");
                 _codeHttp = (int)((HttpWebResponse)we.Response).StatusCode;
-                MessageBox.Show(_codeHttp.ToString());
+                if (_codeHttp == 401)
+                {
+                    _requestResponseHeader = ((HttpWebResponse)we.Response).GetResponseHeader("WWW-Authenticate");
+                }
+                //MessageBox.Show(_codeHttp.ToString());
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message);
+                MessageBox.Show(e.Message, "Exception");
             }
             finally
             {
@@ -305,20 +315,34 @@ namespace ws_declaration_sociale
             return _requestResponse;
         }
 
-        public String GetRequestResponse(string encodingName)
+        public String GetRequestResponseE(string encodingName )
         {
-            switch (encodingName)
-            {
-                case "UTF8":
-                    convertToUtf8(ref _requestResponse);
-                    break;
-                case "ASCII":
-                    convertToAscii(ref _requestResponse);
-                    break;
-                default:
-                    break;
-            }
 
+            if (!string.IsNullOrEmpty(_requestResponse))
+            {
+
+                if (string.IsNullOrEmpty(encodingName))
+                {
+                    encodingName = "";
+                }
+
+
+                switch (encodingName.ToUpper())
+                {
+                    case "UTF8":
+                        convertToUtf8(ref _requestResponse);
+                        break;
+                    case "ASCII":
+                        convertToAscii(ref _requestResponse);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                return "";
+            }
 
 
 
@@ -375,6 +399,17 @@ namespace ws_declaration_sociale
 
 
         }
+
+
+
+
+        ///
+        public String GetRequestResponseHeader()
+        {
+            return _requestResponseHeader;
+
+        }
+
 
         /// <summary>
         /// convert source string to UTF8 encoding
